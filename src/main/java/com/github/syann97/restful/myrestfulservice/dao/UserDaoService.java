@@ -1,49 +1,16 @@
 package com.github.syann97.restful.myrestfulservice.dao;
 
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.stereotype.Component;
 
 import com.github.syann97.restful.myrestfulservice.bean.User;
 
-@Component
-public class UserDaoService {
-	private static List<User> users = new ArrayList<User>();
 
-	private static int usersCount = 3;
+public interface UserDaoService {
+	public List<User> findAll();
 
-	static {
-		users.add(new User(1, "Kenneth", new Date()));
-		users.add(new User(2, "Alice", new Date()));
-		users.add(new User(3, "Elena", new Date()));
-	}
+	public User save (User user);
 
-	public List<User> getUsers() {
-		return users;
-	}
-
-	public User save (User user) {
-		if (user.getId() == null) {
-			user.setId(++usersCount);
-		}
-
-		if (user.getJoinDate() == null) {
-			user.setJoinDate(new Date());
-		}
-
-		users.add(user);
-
-		return user;
-	}
-
-	public User findOne(int id) {
-		for (User user : users) {
-			if (user.getId() == id) {
-				return user;
-			}
-		}
-		return null;
-	}
+	public User findOne(int id);
 }
