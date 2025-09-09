@@ -13,6 +13,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.github.syann97.restful.myrestfulservice.bean.User;
 import com.github.syann97.restful.myrestfulservice.dao.UserDaoService;
+import com.github.syann97.restful.myrestfulservice.exception.UserNotFoundException;
 
 import lombok.AllArgsConstructor;
 
@@ -30,6 +31,10 @@ public class UserController {
 	@GetMapping("/users/{id}")
 	public User retrieveUserById(@PathVariable int id) {
 		User user = service.findOne(id);
+
+		if (user == null) {
+			throw new UserNotFoundException(String.format("ID[%s] not found", id));
+		}
 
 		return user;
 	}
