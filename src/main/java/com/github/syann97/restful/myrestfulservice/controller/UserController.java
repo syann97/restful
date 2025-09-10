@@ -16,6 +16,7 @@ import com.github.syann97.restful.myrestfulservice.bean.User;
 import com.github.syann97.restful.myrestfulservice.dao.UserDaoService;
 import com.github.syann97.restful.myrestfulservice.exception.UserNotFoundException;
 
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 
 @RestController
@@ -41,7 +42,7 @@ public class UserController {
 	}
 
 	@PostMapping("/users")
-	public ResponseEntity<User> createUser(@RequestBody User user) {
+	public ResponseEntity<User> createUser(@Valid @RequestBody User user) {
 		User savedUser = service.save(user);
 
 		URI location = ServletUriComponentsBuilder.fromCurrentRequest()
