@@ -30,6 +30,52 @@ public class AdminUserController {
 	}
 
 	/**
+	 * MimeType Versioning
+	 * @param id
+	 * @return
+	 */
+	@GetMapping(value = "/users/{id}", produces = "application/vnd.company.appv1+json")
+	public MappingJacksonValue retrieveUser4AdminMimeTypeV1(@PathVariable int id) {
+		User user = service.findOne(id);
+
+		AdminUser adminUser = new AdminUser();
+		if (user == null) {
+			throw new UserNotFoundException(String.format("ID[%s] not found", id));
+		} else {
+			BeanUtils.copyProperties(user, adminUser);
+		}
+
+		SimpleBeanPropertyFilter filter = SimpleBeanPropertyFilter.filterOutAllExcept("id", "name", "joinDate", "ssn");
+		FilterProvider filters = new SimpleFilterProvider().addFilter("UserInfo", filter);
+
+		MappingJacksonValue mapping = new MappingJacksonValue(adminUser);
+		mapping.setFilters(filters);
+
+		return mapping;
+	}
+
+	@GetMapping(value = "/users/{id}", produces = "application/vnd.company.appv2+json")
+	public MappingJacksonValue retrieveUser4AdminMimeTypeV2(@PathVariable int id) {
+		User user = service.findOne(id);
+
+		AdminUserV2 adminUser = new AdminUserV2();
+		if (user == null) {
+			throw new UserNotFoundException(String.format("ID[%s] not found", id));
+		} else {
+			BeanUtils.copyProperties(user, adminUser);
+			adminUser.setGrade("VIP");
+		}
+
+		SimpleBeanPropertyFilter filter = SimpleBeanPropertyFilter.filterOutAllExcept("id", "name", "joinDate", "grade");
+		FilterProvider filters = new SimpleFilterProvider().addFilter("UserInfoV2", filter);
+
+		MappingJacksonValue mapping = new MappingJacksonValue(adminUser);
+		mapping.setFilters(filters);
+
+		return mapping;
+	}
+
+	/**
 	 * Header Versioning
 	 * @param id
 	 * @return
