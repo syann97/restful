@@ -13,4 +13,6 @@ public interface UserDaoService {
 	public User save (User user);
 
 	public User findOne(int id);
+
+	public User deleteById(int id);
 }
