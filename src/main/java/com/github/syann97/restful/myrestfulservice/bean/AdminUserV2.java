@@ -4,8 +4,8 @@ import java.util.Date;
 
 import com.fasterxml.jackson.annotation.JsonFilter;
 
-import jakarta.validation.constraints.Past;
-import jakarta.validation.constraints.Size;
+import javax.validation.constraints.Past;
+import javax.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
