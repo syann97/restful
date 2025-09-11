@@ -38,13 +38,13 @@ dependencies {
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
     implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-xml'
 
-    // Swagger + spring Boot 2.x
+    // Swagger + Spring Boot 2.x
 //    implementation 'io.springfox:springfox-boot-starter:3.0.0'
 //    implementation 'io.springfox:springfox-swagger-ui:3.0.0'
 //    implementation 'org.springframework.boot:spring-boot-starter-actuator:2.7.6'
 
 
-    // Swagger + spring Boot 3.x
+    // Swagger + Spring Boot 3.x
     implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.13'
 
 }
