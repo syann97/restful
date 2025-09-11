@@ -3,7 +3,6 @@ package com.github.syann97.restful.myrestfulservice.bean;
 import java.util.Date;
 
 import com.fasterxml.jackson.annotation.JsonFilter;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import jakarta.validation.constraints.Past;
 import jakarta.validation.constraints.Size;
