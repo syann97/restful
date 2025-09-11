@@ -2,11 +2,10 @@ package com.github.syann97.restful.myrestfulservice.bean;
 
 import java.util.Date;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-import javax.validation.constraints.Past;
-import javax.validation.constraints.Size;
+import jakarta.validation.constraints.Past;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
