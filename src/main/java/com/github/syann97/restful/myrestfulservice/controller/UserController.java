@@ -20,11 +20,17 @@ import com.github.syann97.restful.myrestfulservice.bean.User;
 import com.github.syann97.restful.myrestfulservice.dao.UserDaoService;
 import com.github.syann97.restful.myrestfulservice.exception.UserNotFoundException;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 
 @RestController
 @AllArgsConstructor
+@Tag(name = "user-controller", description = "일반 사용자 서비스를 위한 컨트롤러")
 public class UserController {
 
 	private UserDaoService service;
@@ -34,8 +40,15 @@ public class UserController {
 		return service.findAll();
 	}
 
+	@Operation(summary = "사용자 정보 조회 API", description = "사용자 ID를 이용해서 사용자 상세 정보 조회")
+	@ApiResponses({
+		@ApiResponse(responseCode = "200", description = "OK"),
+		@ApiResponse(responseCode = "400", description = "BAD REQUEST"),
+		@ApiResponse(responseCode = "404", description = "USER NOT FOUND"),
+		@ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR"),
+	})
 	@GetMapping("/users/{id}")
-	public EntityModel<User> retrieveUserById(@PathVariable int id) {
+	public EntityModel<User> retrieveUserById(@Parameter(description = "사용자 ID", required = true, example = "1") @PathVariable int id) {
 		User user = service.findOne(id);
 
 		if (user == null) {
