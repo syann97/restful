@@ -21,6 +21,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import com.github.syann97.restful.myrestfulservice.bean.Post;
 import com.github.syann97.restful.myrestfulservice.bean.User;
 import com.github.syann97.restful.myrestfulservice.exception.UserNotFoundException;
+import com.github.syann97.restful.myrestfulservice.repository.PostRepository;
 import com.github.syann97.restful.myrestfulservice.repository.UserRepository;
 
 import jakarta.validation.Valid;
@@ -30,9 +31,11 @@ import jakarta.validation.Valid;
 public class UserJpaController {
 
 	private UserRepository userRepository;
+	private PostRepository postRepository;
 
-	public UserJpaController(UserRepository userRepository) {
+	public UserJpaController(UserRepository userRepository, PostRepository postRepository) {
 		this.userRepository = userRepository;
+		this.postRepository = postRepository;
 	}
 
 	@GetMapping("/users")
@@ -89,5 +92,26 @@ public class UserJpaController {
 		}
 
 		return user.get().getPosts();
+	}
+
+	@PostMapping("/users/{id}/posts")
+	public ResponseEntity createPost(@PathVariable int id, @RequestBody Post post) {
+		Optional<User> userOptional = userRepository.findById(id);
+		if (userOptional.isEmpty()) {
+			throw new UserNotFoundException("id = " + id);
+		}
+
+		User user = userOptional.get();
+
+		post.setUser(user);
+
+		postRepository.save(post);
+
+		URI location = ServletUriComponentsBuilder.fromCurrentRequest()
+			.path("/{id}")
+			.buildAndExpand(post.getId())
+			.toUri();
+
+		return ResponseEntity.created(location).build();
 	}
 }
