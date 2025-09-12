@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.github.syann97.restful.myrestfulservice.bean.Post;
 import com.github.syann97.restful.myrestfulservice.bean.User;
 import com.github.syann97.restful.myrestfulservice.exception.UserNotFoundException;
 import com.github.syann97.restful.myrestfulservice.repository.UserRepository;
@@ -77,5 +78,16 @@ public class UserJpaController {
 			.toUri();
 
 		return ResponseEntity.created(location).build();
+	}
+
+	@GetMapping("/users/{id}/posts")
+	public List<Post> retrieveAllPosts(@PathVariable int id) {
+		Optional<User> user = userRepository.findById(id);
+
+		if (user.isEmpty()) {
+			throw new UserNotFoundException("id = " + id);
+		}
+
+		return user.get().getPosts();
 	}
 }
